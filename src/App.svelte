@@ -10,6 +10,7 @@
   let itemsPerPage = 50;
   let currentPage = 0;
   let pageCount = 0;
+  const minItemsPerPage = 10;
 
   $: {
     (async () => {
@@ -17,6 +18,10 @@
         await (await fetch("./objects/dark-bramble/objects.json")).json()
       ).Objects;
     })();
+  }
+
+  $: {
+    itemsPerPage = Math.max(itemsPerPage ?? 0, minItemsPerPage);
   }
 
   $: {
@@ -41,13 +46,6 @@
       filter = newFilter;
     }, 300);
   };
-
-  const setItemsPerPageDebounce = (newItemsPerPage: number) => {
-    clearTimeout(filterDebounceTimer);
-    filterDebounceTimer = setTimeout(() => {
-      itemsPerPage = newItemsPerPage;
-    }, 300);
-  };
 </script>
 
 <main class="m-auto p-4">
@@ -56,15 +54,15 @@
       class="p-2 mb-2"
       placeholder="Filter"
       on:change={({ currentTarget: { value } }) => setFilterDebounce(value)}
+      on:keyup={({ currentTarget: { value } }) => setFilterDebounce(value)}
     />
     <div>
       Items per page:
       <input
         type="number"
         class="w-32 p-2"
-        value={itemsPerPage}
-        on:change={({ currentTarget: { value } }) =>
-          setItemsPerPageDebounce(Number.parseInt(value))}
+        bind:value={itemsPerPage}
+        min={minItemsPerPage}
       />
     </div>
   </div>
