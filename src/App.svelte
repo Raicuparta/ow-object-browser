@@ -63,6 +63,10 @@
       filter = newFilter;
     }, 300);
   };
+
+  const onClickPage = (pageIndex: number) => {
+    currentPage = pageIndex;
+  };
 </script>
 
 <main class="m-auto p-4 flex flex-col gap-2">
@@ -93,7 +97,7 @@
       />
     </div>
   </div>
-  <Pagination {pageCount} {currentPage} />
+  <Pagination {pageCount} {currentPage} onClick={onClickPage} />
   <p class="my-2">
     Click on an object to copy its full path to your clipboard.
   </p>
@@ -103,5 +107,5 @@
       <GameObject file="{selectedDirectory}/{file}" {path} />
     {/each}
   </div>
-  <Pagination {pageCount} {currentPage} />
+  <Pagination {pageCount} {currentPage} onClick={onClickPage} />
 </main>
