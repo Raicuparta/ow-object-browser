@@ -1,6 +1,7 @@
 <script lang="ts">
   import Button from "./Button.svelte";
   import GameObject from "./GameObject.svelte";
+  import Pagination from "./Pagination.svelte";
 
   const directories = [
     "cave-twin",
@@ -92,23 +93,15 @@
       />
     </div>
   </div>
-  <div class="flex flex-wrap gap-2">
-    {#each Array(pageCount) as _, pageIndex}
-      <Button
-        isSelected={pageIndex == currentPage}
-        on:click={() => (currentPage = pageIndex)}
-      >
-        {pageIndex}
-      </Button>
-    {/each}
-  </div>
-  <p class="my-4">
+  <Pagination {pageCount} {currentPage} />
+  <p class="my-2">
     Click on an object to copy its full path to your clipboard.
   </p>
 
-  <div class="grid grid-cols-4 gap-2">
+  <div class="grid grid-cols-4 gap-2 mb-4">
     {#each paginatedObjectList as [file, path]}
       <GameObject file="{selectedDirectory}/{file}" {path} />
     {/each}
   </div>
+  <Pagination {pageCount} {currentPage} />
 </main>
