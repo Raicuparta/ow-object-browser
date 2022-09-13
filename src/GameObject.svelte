@@ -29,12 +29,7 @@
   class="overflow-hidden text-left p-2 border border-black"
   on:click={onClick}
 >
-  <img
-    class="m-auto icon-outline bg-white"
-    alt={path}
-    src="./objects/{file}"
-    loading="lazy"
-  />
+  <img class="m-auto" alt={path} src="./objects/{file}" loading="lazy" />
   <code bind:this={pathElement} class="break-words text-xs">
     {objectName}
   </code>
