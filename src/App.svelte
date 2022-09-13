@@ -18,7 +18,7 @@
   let filter = "";
   let filterDebounceTimer = -1;
 
-  let itemsPerPage = 50;
+  let itemsPerPage = 52;
   let currentPage = 0;
   let pageCount = 0;
   let selectedDirectory = "timber-hearth";
@@ -64,18 +64,20 @@
   };
 </script>
 
-<main class="m-auto p-4">
-  {#each directories as directory}
-    <Button
-      on:click={() => (selectedDirectory = directory)}
-      isSelected={selectedDirectory == directory}
-    >
-      {directory}
-    </Button>
-  {/each}
-  <div class="flex flex-wrap gap-4 p-2">
+<main class="m-auto p-4 flex flex-col gap-2">
+  <div class="flex gap-2">
+    {#each directories as directory}
+      <Button
+        on:click={() => (selectedDirectory = directory)}
+        isSelected={selectedDirectory == directory}
+      >
+        {directory}
+      </Button>
+    {/each}
+  </div>
+  <div class="flex flex-wrap gap-4">
     <input
-      class="p-2 mb-2"
+      class="p-2"
       placeholder="Filter"
       on:change={({ currentTarget: { value } }) => setFilterDebounce(value)}
       on:keyup={({ currentTarget: { value } }) => setFilterDebounce(value)}
@@ -90,7 +92,7 @@
       />
     </div>
   </div>
-  <div class="flex flex-wrap">
+  <div class="flex flex-wrap gap-2">
     {#each Array(pageCount) as _, pageIndex}
       <Button
         isSelected={pageIndex == currentPage}
@@ -104,7 +106,7 @@
     Click on an object to copy its full path to your clipboard.
   </p>
 
-  <div class="grid grid-cols-4">
+  <div class="grid grid-cols-4 gap-2">
     {#each paginatedObjectList as [file, path]}
       <GameObject file="{selectedDirectory}/{file}" {path} />
     {/each}

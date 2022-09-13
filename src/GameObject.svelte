@@ -26,7 +26,7 @@
 </script>
 
 <button
-  class="overflow-hidden text-left m-2 p-2 border border-black"
+  class="overflow-hidden text-left p-2 border border-black"
   on:click={onClick}
 >
   <img
