@@ -31,8 +31,6 @@
 >
   <img
     class="m-auto icon-outline bg-white"
-    width={100}
-    height={100}
     alt={path}
     src="./objects/{file}"
     loading="lazy"
