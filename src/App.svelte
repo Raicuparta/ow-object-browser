@@ -1,7 +1,18 @@
 <script lang="ts">
+  import Button from "./Button.svelte";
   import GameObject from "./GameObject.svelte";
 
-  let objectRecord: Record<string, string> = {};
+  const directories = [
+    "cave-twin",
+    "comet",
+    "dark-bramble",
+    "moon",
+    "ring-world",
+    "timber-hearth",
+    "tower-twin",
+  ];
+
+  let objectRecords: Record<string, Record<string, string>> = {};
   let filteredObjectList: [string, string][];
   let paginatedObjectList: [string, string][];
   let filter = "";
@@ -10,13 +21,16 @@
   let itemsPerPage = 50;
   let currentPage = 0;
   let pageCount = 0;
+  let selectedDirectory = "timber-hearth";
   const minItemsPerPage = 10;
 
   $: {
     (async () => {
-      objectRecord = (
-        await (await fetch("./objects/dark-bramble/objects.json")).json()
-      ).Objects;
+      for (const directory of directories) {
+        objectRecords[directory] = (
+          await (await fetch(`./objects/${directory}/objects.json`)).json()
+        ).Objects;
+      }
     })();
   }
 
@@ -25,7 +39,9 @@
   }
 
   $: {
-    filteredObjectList = Object.entries(objectRecord).filter((entry) =>
+    filteredObjectList = Object.entries(
+      objectRecords[selectedDirectory] ?? {}
+    ).filter((entry) =>
       entry[1].toLocaleLowerCase().includes(filter.toLocaleLowerCase())
     );
 
@@ -49,6 +65,14 @@
 </script>
 
 <main class="m-auto p-4">
+  {#each directories as directory}
+    <Button
+      on:click={() => (selectedDirectory = directory)}
+      isSelected={selectedDirectory == directory}
+    >
+      {directory}
+    </Button>
+  {/each}
   <div class="flex flex-wrap gap-4 p-2">
     <input
       class="p-2 mb-2"
@@ -68,19 +92,21 @@
   </div>
   <div class="flex flex-wrap">
     {#each Array(pageCount) as _, pageIndex}
-      <button
-        class="bg-black p-1 m-1"
-        class:bg-white={pageIndex == currentPage}
-        class:text-black={pageIndex == currentPage}
+      <Button
+        isSelected={pageIndex == currentPage}
         on:click={() => (currentPage = pageIndex)}
       >
         {pageIndex}
-      </button>
+      </Button>
     {/each}
   </div>
+  <p class="my-4">
+    Click on an object to copy its full path to your clipboard.
+  </p>
+
   <div class="grid grid-cols-4">
     {#each paginatedObjectList as [file, path]}
-      <GameObject {file} {path} />
+      <GameObject file="{selectedDirectory}/{file}" {path} />
     {/each}
   </div>
 </main>

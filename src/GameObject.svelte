@@ -34,7 +34,7 @@
     width={100}
     height={100}
     alt={path}
-    src="./objects/dark-bramble/{file}"
+    src="./objects/{file}"
     loading="lazy"
   />
   <code bind:this={pathElement} class="break-words text-xs">
