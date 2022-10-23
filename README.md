@@ -1,3 +1,3 @@
 # Outer Wilds Object Browser
 
-[raicuparta.com/ow-object-browser](https://raicuparta.com/ow-object-browser)
+[raicuparta.github.io/ow-object-browser](https://raicuparta.github.io/ow-object-browser/)
